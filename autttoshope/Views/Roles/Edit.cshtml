@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model autttoshope.ViewModels.ChangeRoleViewModel
+
+@{
+    ViewData["Title"] = "Изменение ролей";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            <div class="container">
+                <h2>Изменение ролей для пользователя @Model.UserEmail</h2>
+
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" name="userId" value="@Model.UserId" />
+                    <div class="form-group">
+                        @foreach (IdentityRole role in Model.AllRoles)
+                        {
+                            <input type="checkbox" name="roles" value="@role.Name"
+                                   @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />@role.Name <br />
+                            }
+                    </div>
+                    <button type="submit" class="btn " style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

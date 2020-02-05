@@ -1,0 +1,25 @@
+﻿@model IEnumerable<autttoshope.Models.Person>
+@{
+    ViewData["Title"] = "Список пользователей";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            <div class="container">
+                <h1 class="text text-center"><br>ПОЛЬЗОВАТЕЛИ<br></h1>
+                <hr class="line" style="width: 72%;">
+                <table class="table">
+                    @foreach (var user in Model)
+                    {
+                        <tr style="color:white">
+                            <td>@user.Email</td>
+                            <td>
+                                <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn" asp-action="Edit" asp-route-userid="@user.Id">Права доступа</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</main>

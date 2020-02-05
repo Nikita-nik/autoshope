@@ -1,0 +1,47 @@
+﻿@model IEnumerable<autttoshope.Models.Person>
+@{
+    ViewData["Title"] = "Список пользователей";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="container">
+                    <h1 class="text text-center" ><br>ПОЛЬЗОВАТЕЛИ<br></h1>
+                    <hr class="line" style="width: 72%;">
+                    <a style="color:white; margin-bottom:1rem" asp-action="Create">Добавить пользователя</a><br><br>
+
+                    <table class="table">
+                        <tr style="color:white"><th>Email</th><th>Год</th><th></th></tr>
+                        @foreach (var user in Model)
+                        {
+                    <tr style="color:white">
+                        <td>@user.Email</td>
+                        <td>@user.Name</td>
+                        <td>@user.Surname</td>
+                        <td>@user.Patronymic</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                                <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn " asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                                <!-- <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>-->
+                                <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                    Удалить
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                        }
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="container">
+                    <a style="color:white" asp-controller="Account" asp-action="Login">Вход</a><br>
+                    <a style="color:white" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
+        </div>
+    </div>
+</main>

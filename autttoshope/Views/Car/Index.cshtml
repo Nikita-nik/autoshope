@@ -1,0 +1,48 @@
+﻿@model IEnumerable<autttoshope.Models.Car>
+@{
+    ViewData["Title"] = "Список товаров";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="container">
+                    <h1 class="text text-center" style="font-family: Comic Sans MS"><br>ТОВАРЫ<br></h1>
+                    <hr class="line" style="width: 72%;">
+                    <a style="color:white; margin-bottom:1rem" asp-action="Create">Добавить товар</a><br><br>
+
+                    <table class="table">
+                        <tr style="color:white"><th>Название</th><th>Категория</th><th>Краткое описание</th><th>Цена</th><th>Полное описание</th><th></th></tr>
+                        @foreach (var car in Model)
+                        {
+                    <tr style="color:white">
+                        <td>@car.NameCar</td>
+                        <td>@car.Category</td>
+                        <td>@car.Color</td>
+                        <td>@car.ShortDesc</td>
+                        <td>@car.Price</td>
+                        <td>@car.LongDesc</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@car.Id" method="post">
+                                <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn " asp-action="Edit" asp-route-id="@car.Id">Изменить</a>
+                                <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                    Удалить
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                        }
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="container" style="font-family: Comic Sans MS">
+                    <a style="color:white" asp-controller="Account" asp-action="Login">Вход</a><br>
+                    <a style="color:white" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
+        </div>
+    </div>
+</main>

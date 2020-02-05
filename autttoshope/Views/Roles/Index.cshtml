@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Список ролей";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="container">
+                    <h1 class="text text-center"><br>РОЛИ<br></h1>
+                    <hr class="line" style="width: 72%;">
+                    <table class="table">
+                        @foreach (var role in Model)
+                        {
+                            <tr style="color:white">
+                                <td>@role.Name</td>
+                                <td>
+                                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                                        <button type="submit" class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem">
+                                            Удалить
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem; color:white" asp-action="Create">Добавить роль</a>
+                    <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem; color:white" asp-action="UserList">Список пользователей</a>
+                </div>
+            }
+            else
+            {
+                <div class="container">
+                    <a style="color:white" asp-controller="Account" asp-action="Login">Вход</a><br>
+                    <a style="color:white" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
+        </div>
+    </div>
+</main>

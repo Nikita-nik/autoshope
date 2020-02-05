@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Контакты";
+}
+
+<main>
+    <div class="mbr-overlay" style="opacity: 0.8">
+    </div>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="media-content col-md-10">
+                            <h1 class="text text-center" style="font-family: Comic Sans MS"><br>КОНТАКТЫ<br></h1>
+                            <hr class="line" style="width: 72%;">
+                            <div class="text-center white pb-3">
+                                <p class="text fonts-style display-5" style="font-family: Comic Sans MS">
+                                    <strong>Адрес:</strong><br>355042, г. Ставрополь, ул. 50 лет ВЛКСМ, 56 а
+                                </p>
+                                <p class="text fonts-style display-5" style="font-family: Comic Sans MS">
+                                    <strong>Телефоны:</strong><br>+7 (8652) 25-83-53, +7 (8652) 25-83-34
+                                </p>
+                                <p class="text fonts-style display-5" style="font-family: Comic Sans MS">
+                                    <strong>Время работы:</strong><br>пн.-пт.: с 10:00 до 19:00<br>сб.: с 10:00 до 15:00<br>вс.: выходной
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="container" style="font-family: Comic Sans MS">
+                    <a style="color:white" asp-controller="Account" asp-action="Login">Вход</a><br>
+                    <a style="color:white" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
+        </div>
+    </div>
+</main>
+

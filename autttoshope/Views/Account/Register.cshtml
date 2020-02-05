@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<main>
+                <h1 class="text text-center"><br>РЕГИСТРАЦИЯ<br></h1>
+                <hr class="line" style="width: 72%;">
+                @model autttoshope.ViewModels.RegisterViewModel
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="Name"></label><br />
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="Surname"></label><br />
+        <input asp-for="Surname" />
+        <span asp-validation-for="Surname"></span>
+    </div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="Patronymic"></label><br />
+        <input asp-for="Patronymic" />
+        <span asp-validation-for="Patronymic"></span>
+    </div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div style="margin-bottom:2rem">
+        <label asp-for="PasswordConfirm"></label><br />
+        <input asp-for="PasswordConfirm" />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <div>
+        <input type="submit" value="Регистрация" />
+    </div>
+</form>
+</main>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<autttoshope.Models.Person>
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div style="font-family: Comic Sans MS" class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="media-content col-md-10 justify-content-md-center">
+                            <h1 class="text text-center" style="font-family: Comic Sans MS"><br>ЛИЧНЫЙ КАБИНЕТ<br></h1>
+                            <hr class="line" style="width: 72%;">
+                            <div style="font-family: Comic Sans MS" class="text-center text  display-5 white pb-3">
+                                <p>@User.Identity.Name</p>
+                                <form method="post" asp-controller="Account" asp-action="Logout">
+                                    <input class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" value="Выход" />
+                                </form>
+                                <hr class="line" style="width: 72%;">
+                            </div>
+                            <div style="font-family: Comic Sans MS" class=" row text-center text fonts-style display-5 white pb-3">
+
+                                <form class="nav-item" style="margin-right:4rem">
+                                    <a class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" href="/Roles/Index">
+                                        Роли
+                                    </a>
+                                </form>
+                                <form class="nav-item" style="margin-right:4rem">
+                                    <a class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" href="/Users/Index">
+                                        Пользователи
+                                    </a>
+                                </form>
+                                <form class="nav-item" style="margin-right:4rem">
+                                    <a class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" href="/UprZakaz/Index">
+                                        Заказы
+                                    </a>
+                                </form>
+                                <form class="nav-item">
+                                    <a class="btn" style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" href="/Car/Index">
+                                        Товары
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="container" style="font-family: Comic Sans MS">
+                    <a style="color:white" asp-controller="Account" asp-action="Login">Вход</a><br>
+                    <a style="color:white" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
+        </div>
+    </div>
+</main>

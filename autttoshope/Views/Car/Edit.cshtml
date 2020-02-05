@@ -1,0 +1,29 @@
+﻿@model Car
+@{
+    ViewData["Title"] = "Изменение цены";
+}
+<main>
+    <div class="mbr-overlay" style="opacity: 0.8">
+    </div>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+            <div class="container" style="font-family: Comic Sans MS">
+                <h2>Изменение цены для товара @Model.NameCar</h2>
+                <form asp-action="Edit" asp-controller="Car">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="NameCar" />
+
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">Новая цена</label>
+                        <input style="font-family: Comic Sans MS" type="text" asp-for="Price" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input style="background-color:black; color:white" type="submit" value="Сохранить" class="btn btn-outline-dark" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
