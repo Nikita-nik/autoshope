@@ -14,34 +14,41 @@
                     <tr style="color:white"><th>Название</th><th>Фото</th><th>Категория</th><th>Краткое описание</th><th>Цена</th><th>Полное описание</th><th></th></tr>
                     @foreach (var car in Model.Where(c=>c.OnSale==true))
                     {
-                        <tr style="color:white">
-                            <td>@car.NameCar</td>
-                            <td> <img class="img-thumbnail thumb" src="data:image/jpeg;base64,@(Convert.ToBase64String(car.Img))" alt="" /></td>
-                            <td>@car.Category.Name</td>
-                            <td>@car.Color</td>
-                            <td>@car.ShortDesc</td>
-                            <td>@car.Price</td>
-                            <td>@car.LongDesc</td>
-                            <td>
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
-                                {
-                                    <form asp-action="BuyOrder" asp-controller="MachineOrder" asp-route-id="@car.Id" method="get">
-                                        <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
-                                            Купить
-                                        </button>
-                                    </form>
-                                }
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("employee"))
-                                {
-                                    <form asp-action="Delete" asp-route-id="@car.Id" method="post">
-                                        <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn" asp-action="Edit" asp-route-id="@car.Id">Изменить</a>
-                                        <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
-                                            Удалить
-                                        </button>
-                                    </form>
-                                }
-                            </td>
-                        </tr>
+                <tr style="color:white">
+                    
+                    @if (car.IsBestSeller)
+                    {
+                        <td>Топ продаж! @car.NameCar </td>
+                    }
+                    else
+                    { <td>@car.NameCar</td>}
+
+                    <td> <img class="img-thumbnail thumb" src="data:image/jpeg;base64,@(Convert.ToBase64String(car.Img))" alt="" /></td>
+                    <td>@car.Category.Name</td>
+                    <td>@car.Color</td>
+                    <td>@car.ShortDesc</td>
+                    <td>@car.Price</td>
+                    <td>@car.LongDesc</td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+                        {
+                            <form asp-action="BuyOrder" asp-controller="MachineOrder" asp-route-id="@car.Id" method="get">
+                                <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                    Купить
+                                </button>
+                            </form>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("employee"))
+                        {
+                            <form asp-action="Delete" asp-route-id="@car.Id" method="post">
+                                <a style="background-color:black; height:3rem;color:white; padding:0.7rem 3rem" class="btn" asp-action="Edit" asp-route-id="@car.Id">Изменить</a>
+                                <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                    Удалить
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
                     }
                 </table>
             </div>
