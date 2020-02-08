@@ -27,6 +27,7 @@ namespace autttoshope.Controllers
             ViewBag.Categories = new SelectList(_uc.Categories.ToList(), nameof(Category.Id), nameof(Category.Name));
             return View();
         }
+        [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> MachineOrder (OrderVM model)
         {
@@ -62,6 +63,7 @@ namespace autttoshope.Controllers
 
             return View(car);
         }
+        [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> BuyOrder(string phone, int id)
         {
