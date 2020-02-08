@@ -1,4 +1,4 @@
-﻿@model MachineOrder
+﻿@model OrderVM
 @{
     ViewData["Title"] = "Предварительная запись";
 }
@@ -16,35 +16,38 @@
 
 <main>
     <div class="row text fonts-style display-7 text-center" style="margin-top:3rem; padding:2rem; text-align:center">
-        User.Identity.IsAuthenticated
+      @if (User.Identity.IsAuthenticated)
         {
         <div class="row text fonts-style display-7 text-center" style="margin-top:5rem;background-color:rgba(0,0,0,0.2);padding:2rem; text-align:center">
             <div class="container 1" style="text-align:center">
                 <div class="row justify-content-md-center">
                     <div class="media-content col-md-10">
                         <h1 class="text fonts-style display-1 text-center">Предварительная запись<br></h1>
+
+                        <div class="form-group">
+                            <label></label>
+                            <input value="@(User.Identity.Name)" class="form-control" readonly="readonly" />
+                        </div>
                         <hr class="line" style="width: 72%;">
+
                     </div>
                 </div>
             </div>
             <div class="row col-md-7">
-                <form method="post" action="~/Zakaz/SendMessage">
+                <form method="post">
+
                     <div class="form-group">
-                        <label asp-for="Person"></label>
-                        <input value="@(User.Identity.Name)" class="form-control" readonly="readonly" />
+                        <label>Категория автомобиля</label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                     </div>
                     <div class="form-group">
-                        <label>Название услуги</label>
-                        <select asp-for="Car.Id" class="form-control" asp-items="ViewBag.Car"></select>
+                        <label asp-for="NameCar" class="control-label">Название машины</label>
+                        <input style="font-family: Comic Sans MS" type="text" asp-for="NameCar" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label>Вид</label>
-                        <select asp-for="Category.Id" class="form-control" asp-items="ViewBag.Category"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Car.Price">Цена</label>
-                        <select asp-for="Car.Price" class="form-control" asp-items="ViewBag.Car"></select>
-                    </div>
+                        <label asp-for="Color" class="control-label">Цвет</label>
+                        <input style="font-family: Comic Sans MS" type="text" asp-for="Color" class="form-control" />
+                    </div>                   
                     <div class="form-group">
                         <label asp-for="Phone"></label>
                         <input asp-for="Phone" class="form-control" />

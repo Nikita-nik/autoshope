@@ -8,16 +8,18 @@
     <div class="container-1">
         <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
             <div class="container" style="font-family: Comic Sans MS">
-                <form asp-action="Create" asp-controller="Car">
+                <form asp-action="Create" asp-controller="Car" enctype="multipart/form-data">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="NameCar" class="control-label">Название</label>
                         <input style="font-family: Comic Sans MS" type="text" asp-for="NameCar" class="form-control" />
                     </div>
+
                     <div class="form-group">
-                        <label asp-for="Category" class="control-label">Категория</label>
-                        <input style="font-family: Comic Sans MS" type="text" asp-for="Category" class="form-control" />
+                        <label for="tech" class="control-label">Страна изготовитель</label>
+                        <select asp-for="CategoryId" asp-items="@(ViewBag.Categories)" class="custom-select"></select>
                     </div>
+
                     <div class="form-group">
                         <label asp-for="Color" class="control-label">Цвеет</label>
                         <input style="font-family: Comic Sans MS" type="text" asp-for="Color" class="form-control" />
@@ -33,6 +35,14 @@
                     <div class="form-group">
                         <label asp-for="Price" class="control-label">Цена</label>
                         <input style="font-family: Comic Sans MS" type="number" asp-for="Price" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Picture" class="control-label">Картинка</label>
+                        <input style="font-family: Comic Sans MS" type="file" asp-for="Picture" name="Picture" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IsBestSeller" class="control-label">Картинка</label>
+                        <input style="font-family: Comic Sans MS" type="checkbox" asp-for="IsBestSeller" name="IsBestSeller" class="form-control" />
                     </div>
                     <div class="form-group">
                         <input style="background-color:black; color:white" type="submit" value="Добавить" class="btn btn-outline-secondary" />
