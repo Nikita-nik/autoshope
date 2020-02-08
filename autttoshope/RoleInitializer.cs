@@ -21,6 +21,10 @@ namespace autttoshope
             {
                 await roleManager.CreateAsync(new IdentityRole("employee"));
             }
+            if (await roleManager.FindByNameAsync("user") == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole("user"));
+            }
             if (await userManager.FindByNameAsync(adminEmail) == null)
             {
                 Person admin = new Person { Email = adminEmail, UserName = adminEmail }; //надо подклюсить айдентити к Person и все будет норм

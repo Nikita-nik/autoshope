@@ -22,8 +22,8 @@ namespace autttoshope.Models
 
         [DisplayName("Телефон")]
         public string Phone { get; set; }
+        public bool ToBuy { get; set; }
 
         public int CarId { get; set; }
-        public Category Category { get; set; }
     }
 }

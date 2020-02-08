@@ -1,6 +1,9 @@
 ﻿using autttoshope.Models;
+using autttoshope.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,43 +20,90 @@ namespace autttoshope.Controllers
         {
             this._uc = context;
         }
+        [Authorize(Roles = "user")]
         [HttpGet]
         public IActionResult MachineOrder()
         {
-            ViewBag.Car = new SelectList(_uc.Cars.ToList(), nameof(Car.Id), nameof(Car.NameCar), nameof(Car.Color), nameof(Car.Price));
-            ViewBag.Category = new SelectList(_uc.Categories.ToList(), nameof(Category.Id), nameof(Category.CategoryName));
+            ViewBag.Categories = new SelectList(_uc.Categories.ToList(), nameof(Category.Id), nameof(Category.Name));
             return View();
         }
         [HttpPost]
-        public IActionResult MachineOrder (MachineOrder model, string phone)
+        public async Task<IActionResult> MachineOrder (OrderVM model)
         {
+ 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var human = _uc.Users.Single(h => h.Id == userId);
-            model.Person = human;
 
-            model.Phone = phone;
-            var carr = _uc.Cars.Single(h => h.Id == 1);
-            model.Car = carr;
-            var catt = _uc.Categories.Single(h => h.Id == 1);
-            model.Category = catt;
-            _uc.MachineOrders.Add(model);
-            _uc.SaveChanges();
+            _uc.MachineOrders.Add(new Models.MachineOrder
+            { 
+            Car = new Car
+            {
+                Color = model.Color,
+                CategoryId = model.CategoryId,
+                IsBestSeller = false,
+                OnSale = false,
+                NameCar = model.NameCar
+            },
+            Phone=model.Phone,
+            ToBuy = false,
+               Person=human
+            });
+            await _uc.SaveChangesAsync();
             ViewData["message"] = "Заказ получен";
-            return View("~/View/MachineOrder/MachineOrder.cshtml");
+            return RedirectToAction("Index","Car");
         }
-        /*[HttpGet]
-        public IActionResult MachineOrder (int? id)
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        public IActionResult BuyOrder(int id)
         {
-            if (id == null) return RedirectToAction("Index");
-            ViewBag.CarId = id;
-            return View();
+            ViewBag.Categories = new DBhelp(_uc).GetDataSelectListItems<Category>().Result;
+            ViewBag.id = id;
+            var car = _uc.Cars.Find(id);
+
+            return View(car);
         }
         [HttpPost]
-        public string MachineOrder (MachineOrder machineOrder)
+        public async Task<IActionResult> BuyOrder(string phone, int id)
         {
-            _uc.MachineOrders.Add(machineOrder);
-            _uc.SaveChanges();
-            return machineOrder.Person + "с вами свяжутся в течении минуты";
-        }*/
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var human = _uc.Users.Single(h => h.Id == userId);
+            var car = _uc.Cars.Find(id);
+            _uc.MachineOrders.Add(new Models.MachineOrder
+            {
+                Car = car,
+                Phone = phone,
+                ToBuy = true,
+                Person = human
+            });
+            await _uc.SaveChangesAsync();
+            ViewData["message"] = "Заказ получен";
+            return RedirectToAction("Index", "Car");
+        }
+        [Authorize(Roles = "employee")]
+        [HttpGet]
+        public async Task<ActionResult> ListOrders()
+        {
+            var orders = await _uc.MachineOrders
+                .AsNoTracking()
+                .Include(mo => mo.Person)
+                .Include(mo => mo.Car)
+                .ThenInclude(c=>c.Category)
+                .ToListAsync();
+            return View(orders);
+        }
+        [Authorize(Roles = "employee")]
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var order = _uc.MachineOrders.Where(mo=>mo.Id==id).Include(mo=>mo.Car);
+            if (order != null)
+            {
+                _uc.Remove(order);
+                _uc.SaveChanges();  
+            }
+            return RedirectToAction("Index");
+        }
+       
     }
 }

@@ -1,0 +1,71 @@
+﻿@model List<MachineOrder>
+@{
+    ViewData["Title"] = "ListOrders";
+}
+<main>
+    <div class="container-1">
+        <div class="row" style="background-color:rgba(0,0,0,.6);margin-top:10rem; padding:2rem; text-align:center">
+
+            <div class="container">
+                <h1 class="text text-center" style="font-family: Comic Sans MS"><br>Заказы на покупку<br></h1>
+                <hr class="line" style="width: 72%;">
+                <table class="table">
+                    <tr style="color:white"><th>Название</th><th>Категория</th><th>Цвет</th><th>Имя</th><th>Почта</th><th>Телефон</th><th></th></tr>
+                    @foreach (var order in Model.Where(o => o.ToBuy == true))
+                    {
+                        <tr style="color:white">
+                            <td>@order.Car.NameCar</td>
+                            <td>@order.Car.Category.Name</td>
+                            <td>@order.Car.Color</td>
+                            <td>@order.Person.Name</td>
+                            <td>@order.Person.Email</td>
+                            <td>@order.Phone</td>
+                            <td>
+
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("employee"))
+                                {
+                                    <form asp-action="Delete" asp-route-id="@order.Id" method="post">
+                                        <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                            Обработать
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <h1 class="text text-center" style="font-family: Comic Sans MS"><br>Заказы на сервисное обслуживание<br></h1>
+
+
+                <table class="table">
+                    <tr style="color:white"><th>Название</th><th>Категория</th><th>Цвет</th><th>Имя</th><th>Почта</th><th>Телефон</th><th></th></tr>
+                    @foreach (var order in Model.Where(o => o.ToBuy == false))
+                    {
+                        <tr style="color:white">
+                            <td>@order.Car.NameCar</td>
+                            <td>@order.Car.Category.Name</td>
+                            <td>@order.Car.Color</td>
+                            <td>@order.Person.Name</td>
+                            <td>@order.Person.Email</td>
+                            <td>@order.Phone</td>
+                            <td>
+
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("employee"))
+                                {
+                                    <form asp-action="Delete" asp-route-id="@order.Id" method="post">
+                                        <button style="background-color:black; height:3rem;color:white; padding:0.5rem 3rem" type="submit" class="btn">
+                                            Обработать
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<h1>ListOrders</h1>
+

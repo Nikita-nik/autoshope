@@ -1,6 +1,7 @@
 ﻿using autttoshope.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +18,30 @@ namespace autttoshope.Controllers
             this._uc = context;
         }
 
-        [Authorize(Roles = "employee")]
-        public IActionResult Index() => View(_uc.Cars.ToList());
+        /* [Authorize(Roles = "employee")]*/
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            ViewBag.Categories = new DBhelp(_uc).GetDataSelectListItems<Category>().Result;
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Car model)
+        public IActionResult Create(Car model)
         {
             if (ModelState.IsValid)
             {
-                Car car = new Car { NameCar = model.NameCar, ShortDesc = model.ShortDesc, LongDesc = model.LongDesc, Color = model.Color, Price = model.Price, Category = model.Category };
+                Car car = new Car {
+                    Img = model.Img, 
+                    NameCar = model.NameCar, 
+                    ShortDesc = model.ShortDesc, 
+                    LongDesc = model.LongDesc, 
+                    Color = model.Color, 
+                    Price = model.Price, 
+                    CategoryId = model.CategoryId,
+                    IsBestSeller=model.IsBestSeller,
+                    OnSale=true
+                };
                 _uc.Cars.Add(car);
                 _uc.SaveChanges();
                 return RedirectToAction("Index");
@@ -35,7 +49,7 @@ namespace autttoshope.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             Car car = _uc.Cars.Single(h => h.Id == id);
             if (car == null)
@@ -47,7 +61,7 @@ namespace autttoshope.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Car model)
+        public IActionResult Edit(Car model)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +84,7 @@ namespace autttoshope.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(int id)
+        public ActionResult Delete(int id)
         {
             Car car = _uc.Cars.Single(h => h.Id == id);
             if (car != null)
@@ -80,5 +94,18 @@ namespace autttoshope.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            var cars = await _uc.Cars.AsNoTracking().Include(c=>c.Category).ToListAsync();
+            return View(cars);
+        }
+       
+       /* [HttpPost]
+        public async Task<ActionResult> Buy()
+        {
+            var cars = await _uc.Cars.AsNoTracking().Include(c => c.Category).ToListAsync();
+            return View(cars);
+        }*/
     }
 }
